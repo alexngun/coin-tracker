@@ -1,22 +1,33 @@
 import { Image, HStack, Text, Box, useColorMode, Input, Skeleton } from 'native-base'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import coin from '../assets/mock/crypto.json'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectWatchlist, addToWatchlist, removeFromWatchlist } from '../redux/watchlistSlicer'
 
 interface Props {
     image: string | undefined,
     symbol: string | undefined,
     marketRank: number | undefined,
-    loading: boolean
+    loading: boolean,
+    id: string
 }
 
-function Appbar({ image, symbol, marketRank, loading }: Props ) {
+function Appbar({ image, symbol, marketRank, loading, id }: Props ) {
 
     const navigation = useNavigation()
     const { colorMode } = useColorMode()
+    const watchlist = useSelector(selectWatchlist)
+    const [starType, setStarType] = useState<boolean>(false)
+    
+    const dispatch = useDispatch()
 
+    useEffect(() => {
+        setStarType(watchlist.includes(id))
+    }, [loading])
+    
     return (
         <HStack alignItems="center" paddingX={5} justifyContent="space-between" height="12" width="full"
             _dark = {{bg: "dark.100"}} _light = {{bg: "coolGray.200"}}
@@ -54,7 +65,19 @@ function Appbar({ image, symbol, marketRank, loading }: Props ) {
 
                 }
             </HStack>
-            <AntDesign color={colorMode === "light" ? "black" : "white"}  name="staro" size={22}/>
+
+            {
+                loading ? 
+                <Skeleton rounded="full" width={8} height={8} startColor={colorMode==="light"?"warmGray.300":"coolGray.600"}/>:
+                starType ?
+                <TouchableOpacity onPress={()=>{dispatch(removeFromWatchlist(id)); setStarType(false) }}>
+                    <AntDesign color="#eab308" name="star" size={22}/>
+                </TouchableOpacity>:
+                <TouchableOpacity onPress={()=>{dispatch(addToWatchlist(id)); setStarType(true) }}>
+                    <AntDesign color={colorMode === "light" ? "black" : "white"}  name="staro" size={22}/>
+                </TouchableOpacity>
+            }
+            
 
         </HStack>
     )

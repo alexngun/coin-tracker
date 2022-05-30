@@ -15,7 +15,12 @@ export interface coinsData {
     market_cap: number,
     market_cap_rank: number,
     price_change_percentage_24h: number,
-    sparkline_in_7d: { price: Array<number> }
+    sparkline_in_7d: { price: Array<number> },
+    high_24h: number,
+    low_24h: number,
+    total_volume: number,
+    max_supply: number,
+    price_change_24h: number,
 }
 
 function MainScreen() {
@@ -47,10 +52,10 @@ function MainScreen() {
             <VStack pb={4}>
                 {
                     loading ?
-                    Array.from(Array(10).keys()).map( i=> 
+                    Array.from(Array(6).keys()).map( i=> 
                         <Center key={i}>
                             <HStack width="92%" alignItems="center" justifyContent="space-between"
-                                    borderBottomWidth={1} paddingY={3} 
+                                    borderBottomWidth={1} paddingY={5} 
                                     _dark={{borderColor: "coolGray.600"}} _light={{borderColor: "warmGray.200"}}
                             >
                                 <HStack  space="1" alignItems="center">

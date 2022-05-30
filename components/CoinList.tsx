@@ -1,8 +1,8 @@
-import { HStack, VStack, Image, Text, Center } from 'native-base'
+import { HStack, VStack, Image, Text, Center, Box } from 'native-base'
 import { TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import { ChartPathProvider, ChartPath, ChartDot } from "@rainbow-me/animated-charts"
+import { ChartPathProvider, ChartPath } from "@rainbow-me/animated-charts"
 
 import type { coinsData } from '../screens/MainScreen'
 
@@ -28,15 +28,23 @@ const trimArray : (arr: Array<number>)=>Array<number> = arr => arr.filter( (_, i
 
 function CoinList( { coinObject } : { coinObject : coinsData}  ) {
 
-    const { id, name, image, symbol, current_price, market_cap_rank, market_cap, price_change_percentage_24h, sparkline_in_7d } = coinObject
+    const { 
+        id, name, image, symbol, current_price, market_cap_rank, market_cap, price_change_24h,
+        price_change_percentage_24h, sparkline_in_7d, high_24h, low_24h, total_volume, max_supply 
+    } = coinObject
+
+
     const trimmedMarketCap = trimNumber(market_cap)
     const navigation = useNavigation()
-
     const isDown = price_change_percentage_24h < 0
     const trimmedArray = trimArray(sparkline_in_7d.price)
 
     return (
-    <TouchableOpacity onPress={()=>navigation.navigate( "Detail" as never, {coinId: id} as never)}>
+    <TouchableOpacity onPress={()=>navigation.navigate( "Detail" as never, {
+        coinId: id, marketCap: market_cap, high: high_24h, 
+        low: low_24h, volume: total_volume, supply: max_supply, change: price_change_24h
+        } as never)}
+    >
     <Center>
         <HStack justifyContent="space-between" alignItems="center" 
             width="92%" borderBottomWidth={1} paddingY={3} 

@@ -1,5 +1,15 @@
 import axios, { Axios, AxiosResponse } from 'axios'
 
+enum choices {
+    oneD = '1D',
+    oneW = '1W',
+    oneM = '1M',
+    halfY = '0.5Y',
+    oneY = '1Y',
+    twoY = '2Y',
+    AllTime = 'ALL'
+}
+
 export const getDetailedCoinData = async (coinId : string) => {
     try {
         const response = await axios.get(
@@ -11,10 +21,50 @@ export const getDetailedCoinData = async (coinId : string) => {
     }
 }
 
-export const getMarketData = async (coinId : string, interval: string, days: number | string ) => {
+export const getOneCoinData = async (coinId: string) => {
     try {
         const response = await axios.get(
-            `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`
+            `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=true`
+        )
+        return response.data
+    } catch(e) {
+        console.log(e)
+    }
+}
+
+export const getMarketData = async (coinId : string, days: choices) => {
+    try {
+        var daysAgo : null | 'max' | number = null
+
+        switch(days) {
+            case choices.oneD:
+                daysAgo = 1
+                break
+            case choices.oneW:
+                daysAgo = 7
+                break
+            case choices.oneM:
+                daysAgo = 31
+                break
+            case choices.halfY:
+                daysAgo = 183
+                break
+            case choices.oneY:
+                daysAgo = 365
+                break
+            case choices.twoY:
+                daysAgo = 730
+                break;
+            case choices.AllTime:
+                daysAgo = "max"
+                break
+            default:
+                daysAgo = 1
+                break
+        }
+
+        const response = await axios.get(
+            `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${daysAgo}`
         )
         return response.data
     } catch(e) {
