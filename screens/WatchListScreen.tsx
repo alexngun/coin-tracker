@@ -1,16 +1,33 @@
 import { Box, ScrollView, VStack, HStack, Center, Skeleton, ISkeletonProps, StatusBar, useColorMode, Spinner, Text } from 'native-base'
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import WatchlistAppbar from '../components/WatchlistAppbar'
 import WatchCoinList from '../components/WatchCoinList'
-import Tags from '../components/Tags'
 import { getOneCoinData } from '../services/request'
 import type { coinsData } from './MainScreen'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as React from 'react'
 import { selectWatchlist } from '../redux/watchlistSlicer'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeFromWatchlist } from '../redux/watchlistSlicer'
 
 type Props = {}
+
+const deleteItem = async (item: string) => {
+    try {
+        const oldWatchlist : string | null = await AsyncStorage.getItem("@watchlist")
+        var jsonOldWatchlist = oldWatchlist != null ? JSON.parse(oldWatchlist) : null
+
+        if(jsonOldWatchlist == null || jsonOldWatchlist.length == 0)
+            return
+
+        const deletedList = jsonOldWatchlist.filter( (ele:string)=>ele!=item )
+        await AsyncStorage.setItem("@watchlist", JSON.stringify(deletedList))
+            
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 
 function WatchListScreen({}: Props) {
 
@@ -19,7 +36,9 @@ function WatchListScreen({}: Props) {
     const { colorMode } = useColorMode()
     const [loading, setLoading] = useState<boolean>(true)
     const [coinData, setCoinData] = useState<Array<coinsData> | null>(null);
-    const onDismiss = useCallback((task: string)=>{
+
+    const onDismiss = useCallback(async (task: string)=>{
+        await deleteItem(task)
         dispatch(removeFromWatchlist(task))
     }, [])
 

@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { ChartPathProvider, ChartPath } from "@rainbow-me/animated-charts"
+import * as React from 'react'
 
 import type { coinsData } from '../screens/MainScreen'
 

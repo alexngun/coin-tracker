@@ -1,11 +1,12 @@
-import { Image, HStack, Text, Box, useColorMode, Input, Skeleton } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import { Image, HStack, Text, Box, useColorMode, Skeleton } from 'native-base'
+import { useEffect, useState } from 'react'
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import coin from '../assets/mock/crypto.json'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectWatchlist, addToWatchlist, removeFromWatchlist } from '../redux/watchlistSlicer'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as React from 'react'
 
 interface Props {
     image: string | undefined,
@@ -23,6 +24,53 @@ function Appbar({ image, symbol, marketRank, loading, id }: Props ) {
     const [starType, setStarType] = useState<boolean>(false)
     
     const dispatch = useDispatch()
+
+    const storeItem = async (item: string) => {
+        try {
+            const oldWatchlist : string | null = await AsyncStorage.getItem("@watchlist")
+            var jsonOldWatchlist = oldWatchlist != null ? JSON.parse(oldWatchlist) : null
+
+            if(jsonOldWatchlist == null || jsonOldWatchlist.length == 0) {
+                await AsyncStorage.setItem("@watchlist", JSON.stringify([item]))
+                return
+            }
+
+            jsonOldWatchlist.push(item)
+            await AsyncStorage.setItem("@watchlist", JSON.stringify(jsonOldWatchlist))
+                
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const deleteItem = async (item: string) => {
+        try {
+            const oldWatchlist : string | null = await AsyncStorage.getItem("@watchlist")
+            var jsonOldWatchlist = oldWatchlist != null ? JSON.parse(oldWatchlist) : null
+
+            if(jsonOldWatchlist == null || jsonOldWatchlist.length == 0)
+                return
+
+            const deletedList = jsonOldWatchlist.filter( (ele:string)=>ele!=item )
+            await AsyncStorage.setItem("@watchlist", JSON.stringify(deletedList))
+                
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const handleAdd = async () => {
+        await storeItem(id)
+        dispatch(addToWatchlist(id))
+        setStarType(true)
+    }
+
+    const handleRemove = async () => {
+        await deleteItem(id)
+        dispatch(removeFromWatchlist(id))
+        setStarType(false)
+    }
+
 
     useEffect(() => {
         setStarType(watchlist.includes(id))
@@ -46,7 +94,7 @@ function Appbar({ image, symbol, marketRank, loading, id }: Props ) {
                     <>
                         <Image 
                             source={{uri: image}}
-                            alt={coin.symbol}
+                            alt={symbol}
                             width={6}
                             height={6}
                             rounded={50}
@@ -70,10 +118,10 @@ function Appbar({ image, symbol, marketRank, loading, id }: Props ) {
                 loading ? 
                 <Skeleton rounded="full" width={8} height={8} startColor={colorMode==="light"?"warmGray.300":"coolGray.600"}/>:
                 starType ?
-                <TouchableOpacity onPress={()=>{dispatch(removeFromWatchlist(id)); setStarType(false) }}>
+                <TouchableOpacity onPress={handleRemove}>
                     <AntDesign color="#eab308" name="star" size={22}/>
                 </TouchableOpacity>:
-                <TouchableOpacity onPress={()=>{dispatch(addToWatchlist(id)); setStarType(true) }}>
+                <TouchableOpacity onPress={handleAdd}>
                     <AntDesign color={colorMode === "light" ? "black" : "white"}  name="staro" size={22}/>
                 </TouchableOpacity>
             }

@@ -1,5 +1,5 @@
 import { HStack, Box, useColorMode, Input, VStack, Heading, Text  } from 'native-base'
-import React from 'react'
+import * as React from 'react'
 import { FontAwesome } from '@expo/vector-icons'
 
 type Props = {}

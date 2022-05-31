@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { ChartPathProvider, ChartPath } from "@rainbow-me/animated-charts"
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 import Animated, { runOnJS, useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
-
+import * as React from 'react'
 import type { coinsData } from '../screens/MainScreen'
 
 const { width } = Dimensions.get("window")

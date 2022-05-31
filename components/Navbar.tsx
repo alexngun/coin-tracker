@@ -3,6 +3,7 @@ import { HStack, useColorMode } from 'native-base'
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { Entypo, Feather } from '@expo/vector-icons'
+import * as React from 'react'
 
 type Props = {}
 

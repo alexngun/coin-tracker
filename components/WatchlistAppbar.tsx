@@ -1,6 +1,6 @@
 import { Box, VStack, Heading, Text  } from 'native-base'
-import React from 'react'
 import LegendBar from '../components/LegendBar'
+import * as React from 'react'
 
 type Props = {}
 

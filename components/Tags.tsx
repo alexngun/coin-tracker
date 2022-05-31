@@ -1,7 +1,7 @@
 import { HStack, Badge, Text, useColorMode } from 'native-base'
 import { TouchableOpacity } from 'react-native'
 import { Feather } from '@expo/vector-icons'
-import React from 'react'
+import * as React from 'react'
 
 type Props = { handlePress: React.Dispatch<React.SetStateAction<'cap'|'vol'|'id'>>}
 

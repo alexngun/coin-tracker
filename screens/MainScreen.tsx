@@ -1,10 +1,14 @@
 import { Box, ScrollView, VStack, HStack, Center, Skeleton, ISkeletonProps, StatusBar, useColorMode, Spinner, Text } from 'native-base'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Appbar from '../components/Appbar'
 import CoinList from '../components/CoinList'
 import Tags from '../components/Tags'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { setWatchList } from '../redux/watchlistSlicer';
 
+import * as React from 'react'
 import { getAllCoins } from '../services/request'
+import { useDispatch } from 'react-redux'
 
 export interface coinsData {
     id: string,
@@ -23,12 +27,32 @@ export interface coinsData {
     price_change_24h: number,
 }
 
+const getItem : ()=>Promise<string[]> = async () => {
+    try {
+        const res = await AsyncStorage.getItem("@watchlist")
+        if(res !== null) {
+            return JSON.parse(res)
+        }
+        return []
+
+    } catch(err) {
+        console.log(err)
+        return []
+    }
+}
+
 function MainScreen() {
 
     const [coinData, setCoinData] = useState<null | Array<coinsData> >(null)
     const [loading, setLoading] = useState<boolean>(true)
     const {colorMode} = useColorMode()
-    const [fetchMode, setFetchMode] = useState<"id"|"cap"|"vol">("id");
+    const dispatch = useDispatch()
+    const [fetchMode, setFetchMode] = useState<"id"|"cap"|"vol">("id")
+
+    const loadWatchlist = async () => {
+        const res = await getItem()
+        dispatch(setWatchList(res))
+      }      
 
     const fetchCoins = async ()=> {
         const fetchedCoinData = await getAllCoins(fetchMode)
@@ -40,6 +64,10 @@ function MainScreen() {
         !loading && setLoading(true)
         fetchCoins()
     }, [fetchMode])
+
+    useEffect(() => {
+        loadWatchlist()
+    }, [])
 
     return (
     <Box width="full" height="full" _dark={{bg: 'dark.50'}}>

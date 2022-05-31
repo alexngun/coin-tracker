@@ -1,4 +1,5 @@
 import { HStack, Box, Text } from 'native-base'
+import * as React from 'react'
 
 type Props = {}
 

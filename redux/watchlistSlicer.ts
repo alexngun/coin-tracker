@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from './store'
 
-const initialState : string[] = ['bitcoin', 'ethereum', 'solana', 'dogecoin']
+const initialState : string[] = []
 
 export const watchlistSlice = createSlice({
     name: 'watchlist',
@@ -9,6 +9,7 @@ export const watchlistSlice = createSlice({
     reducers: {
         setWatchList: (state, action: PayloadAction<string[]>) => {
             state = action.payload
+            return state
         },
         addToWatchlist: (state, action: PayloadAction<string>) => {
             state.push(action.payload)
