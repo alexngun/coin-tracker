@@ -31,10 +31,18 @@ interface coinType {
     name: string,
     symbol: string,
     market_data: {
+        high_24h: { usd: number },
+        low_24h: { usd: number },
+        market_cap: { usd: number },
         market_cap_rank: number,
         current_price: { usd: number },
-        price_change_percentage_24h: number
+        price_change_percentage_24h: number,
+        max_supply: number,
+        price_change_24h: number,
+        total_volume: { usd: number }
     },
+    high_24h: number,
+    low_24h: number,
 }
 
 enum choices {
@@ -456,31 +464,31 @@ function DetailScreen( {route, navigation} : Props ) {
                             <VStack flex={1} space="5" borderRightWidth={2} _light={{borderColor: "warmGray.300"}} _dark={{borderColor: "dark.300"}} pr={2}>
                                 <HStack justifyContent="space-between" justifyItems="center" alignItems="center">
                                     <Text fontSize="xs">High</Text> 
-                                    <Text bold letterSpacing="xs">{route.params.high}</Text> 
+                                    <Text bold letterSpacing="xs">{myCoin?.market_data.high_24h.usd}</Text> 
                                 </HStack>
                                 <HStack flex={1} justifyContent="space-between" justifyItems="center">
                                     <Text fontSize="xs">Cap</Text> 
-                                    <Text bold letterSpacing="xs">{formatNumber(route.params.marketCap, 1)}</Text> 
+                                    <Text bold letterSpacing="xs">{formatNumber(myCoin!.market_data.market_cap.usd, 1)}</Text> 
                                 </HStack>
                             </VStack>
                             <VStack flex={1} space="5" borderRightWidth={2} _light={{borderColor: "warmGray.300"}} _dark={{borderColor: "dark.300"}} pr={2}>
                                 <HStack justifyContent="space-between" justifyItems="center">
                                     <Text fontSize="xs">Low</Text> 
-                                    <Text bold letterSpacing="xs">{route.params.low}</Text> 
+                                    <Text bold letterSpacing="xs">{myCoin?.market_data.low_24h.usd}</Text> 
                                 </HStack>
                                 <HStack flex={1} justifyContent="space-between" justifyItems="center">
                                     <Text fontSize="xs">Supply</Text> 
-                                    <Text bold letterSpacing="xs">{formatNumber(route.params.supply, 1)}</Text> 
+                                    <Text bold letterSpacing="xs">{formatNumber(myCoin!.market_data.max_supply, 1)}</Text> 
                                 </HStack>
                             </VStack>
                             <VStack flex={1} space="5">
                                 <HStack justifyContent="space-between" justifyItems="center">
                                     <Text fontSize="xs">Change</Text> 
-                                    <Text bold letterSpacing="xs">{formatNumber(route.params.change, 3)}</Text> 
+                                    <Text bold letterSpacing="xs">{formatNumber(myCoin!.market_data.price_change_24h, 3)}</Text> 
                                 </HStack>
                                 <HStack justifyContent="space-between" justifyItems="center">
                                     <Text fontSize="xs">Volume</Text> 
-                                    <Text bold letterSpacing="xs" >{formatNumber(route.params.volume, 1)}</Text> 
+                                    <Text bold letterSpacing="xs" >{formatNumber(myCoin!.market_data.total_volume.usd, 1)}</Text> 
                                 </HStack>
                             </VStack>
                         </HStack>

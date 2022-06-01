@@ -64,6 +64,9 @@ function MainScreen() {
     const [loading, setLoading] = useState<boolean>(true)
     const {colorMode} = useColorMode()
     const dispatch = useDispatch()
+    const [onSearch, setOnSearch] = useState(false)
+
+    
     const [fetchMode, setFetchMode] = useState<"id"|"cap"|"vol">("id")
 
     const loadWatchlist = async () => {

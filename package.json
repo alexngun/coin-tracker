@@ -31,6 +31,7 @@
     "react-native-web": "0.17.7",
     "react-native-webview": "^11.21.0",
     "react-redux": "^8.0.2",
+    "string-similarity": "^4.0.4",
     "victory-native": "^36.4.1"
   },
   "devDependencies": {

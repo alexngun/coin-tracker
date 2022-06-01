@@ -10,6 +10,17 @@ enum choices {
     AllTime = 'ALL'
 }
 
+export const getTrueAllCoins = async () => {
+    try {
+        const response = await axios.get(
+            `https://api.coingecko.com/api/v3/coins/list`
+        )
+        return response.data
+    } catch(e) {
+        console.log(e)
+    }
+}
+
 export const getDetailedCoinData = async (coinId : string) => {
     try {
         const response = await axios.get(

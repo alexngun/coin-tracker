@@ -1,7 +1,6 @@
 import { ScrollView, Center, Divider, Text, HStack, Box, useColorMode, Skeleton, VStack, Button } from 'native-base'
 import PortfolioAppbar from '../components/PortfolioAppbar'
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
 import { getOneCoinData } from '../services/request'
 import type { coinsData } from './MainScreen'
@@ -11,7 +10,6 @@ import { SimpleLineIcons } from '@expo/vector-icons'
 import { VictoryPie } from 'victory-native'
 import PortfolioCoinList from '../components/PortfolioCoinList'
 import Animated, { FadeOut, Layout } from 'react-native-reanimated'
-import { position } from 'native-base/lib/typescript/theme/styled-system'
 
 type Props = {}
 
