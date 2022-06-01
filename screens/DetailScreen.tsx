@@ -315,9 +315,8 @@ function DetailScreen( {route, navigation} : Props ) {
                     <AlertDialog leastDestructiveRef={cancelRef} isOpen={isOpen} onClose={onClose}>
                         <AlertDialog.Content>
                         <AlertDialog.CloseButton />
-                        <AlertDialog.Header>Success</AlertDialog.Header>
-                        <AlertDialog.Body>
-                            <HStack space="2" alignItems="center">
+                        <AlertDialog.Header>
+                            <HStack  space="3" alignItems="center">
                                 <Image
                                     source={{uri:myCoin!.image.small}}
                                     alt={myCoin!.symbol}
@@ -325,8 +324,12 @@ function DetailScreen( {route, navigation} : Props ) {
                                     height={7}
                                     rounded={50}
                                 />
-                                <Text>{myCoin?.name} with the current market price is added to your portfolio.</Text>
+                                <Text>Success</Text>
                             </HStack>
+                            
+                        </AlertDialog.Header>
+                        <AlertDialog.Body>
+                            <Text>{myCoin?.name} with the current market price is added to your portfolio.</Text>
                         </AlertDialog.Body>
                         <AlertDialog.Footer>
                             <Button.Group space={2}>
