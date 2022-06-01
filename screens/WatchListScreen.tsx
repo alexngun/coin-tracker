@@ -70,7 +70,7 @@ function WatchListScreen({}: Props) {
 
     useEffect(()=>{
         fetchCoins()
-    }, [])
+    }, [watchlist])
 
     return (
     <Box width="full" height="full"
