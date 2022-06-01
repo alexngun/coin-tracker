@@ -26,8 +26,8 @@ function CoinList( { coinObject, onDismiss } : { coinObject : coinsData, onDismi
     const itemOpacity = useSharedValue(1)
     const { colorMode } = useColorMode()
     const navigation = useNavigation()
-    const isDown = price_change_percentage_24h < 0
-    const trimmedArray = trimArray(sparkline_in_7d.price)
+    const isDown =  price_change_percentage_24h && price_change_percentage_24h < 0
+    const trimmedArray = sparkline_in_7d && trimArray(sparkline_in_7d.price)
 
     const PanGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
         onActive: (event)=>{ translateX.value = event.translationX < 0 ? event.translationX : 0},

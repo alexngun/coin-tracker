@@ -9,11 +9,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as React from 'react'
 
 interface Props {
-    image: string | undefined,
-    symbol: string | undefined,
-    marketRank: number | undefined,
+    image?: string | undefined,
+    symbol?: string | undefined,
+    marketRank?: number | undefined,
     loading: boolean,
-    id: string
+    id?: string
 }
 
 function Appbar({ image, symbol, marketRank, loading, id }: Props ) {
@@ -60,25 +60,28 @@ function Appbar({ image, symbol, marketRank, loading, id }: Props ) {
     }
 
     const handleAdd = async () => {
-        await storeItem(id)
-        dispatch(addToWatchlist(id))
-        setStarType(true)
+        if(id){
+            await storeItem(id)
+            dispatch(addToWatchlist(id))
+            setStarType(true)
+        }
     }
 
     const handleRemove = async () => {
-        await deleteItem(id)
-        dispatch(removeFromWatchlist(id))
-        setStarType(false)
+        if(id) {
+            await deleteItem(id)
+            dispatch(removeFromWatchlist(id))
+            setStarType(false)
+        }
     }
 
-
     useEffect(() => {
-        setStarType(watchlist.includes(id))
+        id && setStarType(watchlist.includes(id))
     }, [loading])
     
     return (
-        <HStack alignItems="center" paddingX={5} justifyContent="space-between" height="12" width="full"
-            _dark = {{bg: "dark.100"}} _light = {{bg: "coolGray.200"}}
+        <HStack zIndex={2} alignItems="center" paddingX={5} justifyContent="space-between" height="12" width="full"
+            _dark = {{bg: "dark.100"}} _light = {{bg: "coolGray.300"}}
         >
             <TouchableOpacity onPress={()=>navigation.goBack()}>
                 <HStack alignItems="center">

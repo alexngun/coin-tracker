@@ -84,7 +84,7 @@ function WatchListScreen({}: Props) {
             <VStack pb={4}>
                 {
                     loading ?
-                    Array.from(Array(6).keys()).map( i=> 
+                    Array.from(Array(8).keys()).map( i=> 
                         <Center key={i}>
                             <HStack width="92%" alignItems="center" justifyContent="space-between"
                                     borderBottomWidth={1} paddingY={5} 

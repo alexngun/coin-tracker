@@ -1,4 +1,4 @@
-import axios, { Axios, AxiosResponse } from 'axios'
+import axios from 'axios'
 
 enum choices {
     oneD = '1D',

@@ -9,6 +9,7 @@ import { setWatchList } from '../redux/watchlistSlicer';
 import * as React from 'react'
 import { getAllCoins } from '../services/request'
 import { useDispatch } from 'react-redux'
+import { setPortfolio } from '../redux/portfolioSlicer'
 
 export interface coinsData {
     id: string,
@@ -16,20 +17,36 @@ export interface coinsData {
     name: string,
     image: string,
     current_price: number,
-    market_cap: number,
-    market_cap_rank: number,
-    price_change_percentage_24h: number,
-    sparkline_in_7d: { price: Array<number> },
-    high_24h: number,
-    low_24h: number,
-    total_volume: number,
-    max_supply: number,
-    price_change_24h: number,
+    market_cap?: number,
+    market_cap_rank?: number,
+    price_change_percentage_24h?: number,
+    sparkline_in_7d?: { price: Array<number> },
+    high_24h?: number,
+    low_24h?: number,
+    total_volume?: number,
+    max_supply?: number,
+    price_change_24h?: number,
+    qty?: number,
+    original?: number
 }
 
 const getItem : ()=>Promise<string[]> = async () => {
     try {
         const res = await AsyncStorage.getItem("@watchlist")
+        if(res !== null) {
+            return JSON.parse(res)
+        }
+        return []
+
+    } catch(err) {
+        console.log(err)
+        return []
+    }
+}
+
+const getPortfolio : ()=>Promise<Array<{id: string, boughtPrice: number, amount: number}>> = async () => {
+    try {
+        const res = await AsyncStorage.getItem("@portfolio")
         if(res !== null) {
             return JSON.parse(res)
         }
@@ -52,7 +69,12 @@ function MainScreen() {
     const loadWatchlist = async () => {
         const res = await getItem()
         dispatch(setWatchList(res))
-      }      
+    }      
+
+    const loadPortfolio = async () => {
+        const res = await getPortfolio()
+        dispatch(setPortfolio(res))
+    }
 
     const fetchCoins = async ()=> {
         const fetchedCoinData = await getAllCoins(fetchMode)
@@ -67,6 +89,7 @@ function MainScreen() {
 
     useEffect(() => {
         loadWatchlist()
+        loadPortfolio()
     }, [])
 
     return (
@@ -80,7 +103,7 @@ function MainScreen() {
             <VStack pb={4}>
                 {
                     loading ?
-                    Array.from(Array(6).keys()).map( i=> 
+                    Array.from(Array(8).keys()).map( i=> 
                         <Center key={i}>
                             <HStack width="92%" alignItems="center" justifyContent="space-between"
                                     borderBottomWidth={1} paddingY={5} 

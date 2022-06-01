@@ -4,20 +4,19 @@ import * as React from 'react'
 
 type Props = {}
 
-function WatchlistAppbar({}: Props) {
+function PortfolioAppbar({}: Props) {
 
     const date = new Date()
 
     return (
-        <VStack px={3} _dark={{bg: "dark.100"}} _light={{bg: "coolGray.300"}}>
+        <VStack px={3} pb={2} _dark={{bg: "dark.100"}} _light={{bg: "coolGray.300"}}>
             <Box width="full" height={10} flexDirection="row" alignItems="center" justifyContent="space-between">
-                <Heading>Watch List</Heading>
+                <Heading>Portfolio</Heading>
                 <Text fontSize="sm">{date.toDateString()}</Text>
             </Box>
-            <LegendBar/>
         </VStack>
 
     )
 }
 
-export default WatchlistAppbar
+export default PortfolioAppbar

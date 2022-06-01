@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import watchReducer from './watchlistSlicer'
+import portfolioReducer from "./portfolioSlicer";
 
 export const store = configureStore({
     reducer: {
-        watchlist: watchReducer
+        watchlist: watchReducer,
+        portfolio: portfolioReducer
     }
 })
 

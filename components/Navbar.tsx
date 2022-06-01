@@ -13,14 +13,14 @@ function Navbar({}: Props) {
     const navigation = useNavigation()
 
     return (
-    <HStack py={4} h="8%" justifyContent="space-evenly" _light={{bg: "warmGray.50"}} _dark={{bg: "dark.200"}}>
+    <HStack py={4} h="8%" justifyContent="space-evenly" _light={{bg: "coolGray.300"}} _dark={{bg: "dark.100"}}>
         <TouchableOpacity onPress={()=>navigation.navigate("Home" as never)}>
             <AntDesign color={colorMode==="light"?"black":"white"} size={22} name='home'/>
         </TouchableOpacity>
         <TouchableOpacity onPress={()=>navigation.navigate("Watchlist" as never)}>
             <AntDesign color={colorMode==="light"?"black":"white"} size={22} name='hearto'/>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Portfolio" as never)}>
             <AntDesign color={colorMode==="light"?"black":"white"} size={22} name='wallet'/>
         </TouchableOpacity>
         <TouchableOpacity onPressOut={toggleColorMode}>

@@ -10,7 +10,7 @@ function Appbar({}: Props) {
     const date = new Date()
 
     return (
-        <VStack px={3} pb={3} _dark={{bg: "dark.100"}} _light={{bg: "coolGray.200"}}>
+        <VStack px={3} pb={3} _dark={{bg: "dark.100"}} _light={{bg: "coolGray.300"}}>
             <Box width="full" height={10} flexDirection="row" alignItems="center" justifyContent="space-between">
                 <Heading>Crypto Assets </Heading>
                 <Text fontSize="sm">{date.toDateString()}</Text>
